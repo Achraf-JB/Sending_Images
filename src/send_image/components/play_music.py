@@ -1,9 +1,7 @@
 import speech_recognition as sr
 import pyttsx3
 import pywhatkit
-import datetime
-import wikipedia
-import pyjokes
+
 
 class Alexa:
     def __init__(self):
@@ -15,39 +13,26 @@ class Alexa:
         self.engine.runAndWait()
 
     def take_command(self):
+        command = ""
         try:
             with sr.Microphone() as source:
                 print('listening...')
                 voice = self.listener.listen(source)
                 command = self.listener.recognize_google(voice)
                 command = command.lower()
-                if 'alexa' in command:
-                    command = command.replace('alexa', '')
-                    print(command)
-        except:
-            pass
+        except sr.UnknownValueError:
+            print("Could not understand the audio.")
+        except sr.RequestError as e:
+            print(f"Error with the request: {e}")
+        except Exception as e:
+            print(f"Unexpected error: {e}")
         return command
-
+      
     def run_alexa(self):
-        command = self.take_command()
-        print(command)
-        if 'play' in command:
-            song = command.replace('play', '')
-            self.talk('playing ' + song)
-            pywhatkit.playonyt(song)
-        elif 'time' in command:
-            time = datetime.datetime.now().strftime('%I:%M %p')
-            self.talk('Current time is ' + time)
-        elif 'who the heck is' in command:
-            person = command.replace('who the heck is', '')
-            info = wikipedia.summary(person, 1)
-            print(info)
-            self.talk(info)
-        elif 'date' in command:
-            self.talk('sorry, I have a headache')
-        elif 'are you single' in command:
-            self.talk('I am in a relationship with wifi')
-        elif 'joke' in command:
-            self.talk(pyjokes.get_joke())
-        else:
-            self.talk('Please say the command again.')
+          command = ""
+          self.talk("what the muique you need to listen")
+          command = self.take_command()
+          self.talk('playing ' + command)
+          pywhatkit.playonyt(command)
+ 
+
